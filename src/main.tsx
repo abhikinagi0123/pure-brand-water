@@ -10,6 +10,13 @@ import { BrowserRouter, Route, Routes, useLocation } from "react-router";
 import "./index.css";
 import Landing from "./pages/Landing.tsx";
 import NotFound from "./pages/NotFound.tsx";
+import Products from "./pages/Products.tsx";
+import Contact from "./pages/Contact.tsx";
+import About from "./pages/About.tsx";
+import Customize from "./pages/Customize.tsx";
+import Industries from "./pages/Industries.tsx";
+import Gallery from "./pages/Gallery.tsx";
+import Blog from "./pages/Blog.tsx";
 import "./types/global.d.ts";
 
 const convex = new ConvexReactClient(import.meta.env.VITE_CONVEX_URL as string);
@@ -49,7 +56,14 @@ createRoot(document.getElementById("root")!).render(
           <RouteSyncer />
           <Routes>
             <Route path="/" element={<Landing />} />
-            <Route path="/auth" element={<AuthPage redirectAfterAuth="/" />} /> {/* TODO: change redirect after auth to correct page */}
+            <Route path="/auth" element={<AuthPage redirectAfterAuth="/" />} />
+            <Route path="/products" element={<Products />} />
+            <Route path="/contact" element={<Contact />} />
+            <Route path="/about" element={<About />} />
+            <Route path="/customize" element={<Customize />} />
+            <Route path="/industries" element={<Industries />} />
+            <Route path="/gallery" element={<Gallery />} />
+            <Route path="/blog" element={<Blog />} />
             <Route path="*" element={<NotFound />} />
           </Routes>
         </BrowserRouter>

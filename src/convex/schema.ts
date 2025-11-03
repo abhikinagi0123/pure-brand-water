@@ -2,7 +2,6 @@ import { authTables } from "@convex-dev/auth/server";
 import { defineSchema, defineTable } from "convex/server";
 import { Infer, v } from "convex/values";
 
-// default user roles. can add / remove based on the project as needed
 export const ROLES = {
   ADMIN: "admin",
   USER: "user",
@@ -18,26 +17,80 @@ export type Role = Infer<typeof roleValidator>;
 
 const schema = defineSchema(
   {
-    // default auth tables using convex auth.
-    ...authTables, // do not remove or modify
+    ...authTables,
 
-    // the users table is the default users table that is brought in by the authTables
     users: defineTable({
-      name: v.optional(v.string()), // name of the user. do not remove
-      image: v.optional(v.string()), // image of the user. do not remove
-      email: v.optional(v.string()), // email of the user. do not remove
-      emailVerificationTime: v.optional(v.number()), // email verification time. do not remove
-      isAnonymous: v.optional(v.boolean()), // is the user anonymous. do not remove
+      name: v.optional(v.string()),
+      image: v.optional(v.string()),
+      email: v.optional(v.string()),
+      emailVerificationTime: v.optional(v.number()),
+      isAnonymous: v.optional(v.boolean()),
+      role: v.optional(roleValidator),
+    }).index("email", ["email"]),
 
-      role: v.optional(roleValidator), // role of the user. do not remove
-    }).index("email", ["email"]), // index for the email. do not remove or modify
+    quotes: defineTable({
+      name: v.string(),
+      companyName: v.string(),
+      email: v.string(),
+      phone: v.string(),
+      quantity: v.string(),
+      bottleType: v.string(),
+      message: v.optional(v.string()),
+      status: v.string(), // "pending", "contacted", "completed"
+      userId: v.optional(v.id("users")),
+    }).index("by_email", ["email"])
+      .index("by_status", ["status"]),
 
-    // add other tables here
+    customizations: defineTable({
+      userId: v.optional(v.id("users")),
+      bottleType: v.string(),
+      bottleColor: v.optional(v.string()),
+      labelFinish: v.string(), // "gloss" or "matte"
+      logoUrl: v.optional(v.string()),
+      qrCode: v.boolean(),
+      personalizedMessage: v.optional(v.string()),
+      capColor: v.optional(v.string()),
+      email: v.string(),
+      name: v.string(),
+    }).index("by_user", ["userId"])
+      .index("by_email", ["email"]),
 
-    // tableName: defineTable({
-    //   ...
-    //   // table fields
-    // }).index("by_field", ["field"])
+    testimonials: defineTable({
+      name: v.string(),
+      company: v.string(),
+      role: v.string(),
+      content: v.string(),
+      rating: v.number(),
+      imageUrl: v.optional(v.string()),
+      featured: v.boolean(),
+    }).index("by_featured", ["featured"]),
+
+    blogPosts: defineTable({
+      title: v.string(),
+      slug: v.string(),
+      excerpt: v.string(),
+      content: v.string(),
+      author: v.string(),
+      category: v.string(),
+      imageUrl: v.string(),
+      published: v.boolean(),
+      publishedAt: v.optional(v.number()),
+    }).index("by_slug", ["slug"])
+      .index("by_published", ["published"])
+      .index("by_category", ["category"]),
+
+    portfolioItems: defineTable({
+      brandName: v.string(),
+      industry: v.string(), // "corporate", "events", "hotels", "retail"
+      imageUrl: v.string(),
+      description: v.string(),
+      testimonial: v.optional(v.string()),
+    }).index("by_industry", ["industry"]),
+
+    newsletter: defineTable({
+      email: v.string(),
+      subscribed: v.boolean(),
+    }).index("by_email", ["email"]),
   },
   {
     schemaValidation: false,
