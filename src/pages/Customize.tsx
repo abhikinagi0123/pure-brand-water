@@ -7,6 +7,7 @@ import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@
 import { Switch } from "@/components/ui/switch";
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
+import BottleScene3D from "@/components/BottleScene3D";
 import { motion } from "framer-motion";
 import { Sparkles, Upload, CheckCircle } from "lucide-react";
 import { useState } from "react";
@@ -53,19 +54,28 @@ export default function Customize() {
     <div className="min-h-screen">
       <Navbar />
 
-      <section className="py-20 bg-gradient-to-b from-primary/5 to-background">
-        <div className="container mx-auto px-4">
+      <section className="py-24 bg-gradient-to-b from-primary/5 to-background relative">
+        <div className="absolute inset-0 bg-[radial-gradient(circle_at_30%_20%,rgba(255,51,51,0.08),transparent_50%)]" />
+        <div className="container mx-auto px-4 relative">
           <motion.div
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             className="text-center max-w-3xl mx-auto mb-16"
           >
-            <Sparkles className="h-16 w-16 text-primary mx-auto mb-6" />
-            <h1 className="text-4xl md:text-5xl font-bold tracking-tight mb-4">
+            <motion.div
+              initial={{ scale: 0, rotate: -180 }}
+              animate={{ scale: 1, rotate: 0 }}
+              transition={{ duration: 0.8, type: "spring" }}
+              className="inline-block mb-6"
+            >
+              <Sparkles className="h-16 w-16 text-primary mx-auto" />
+            </motion.div>
+            <span className="text-sm font-semibold text-primary uppercase tracking-wider mb-4 block">Customization</span>
+            <h1 className="text-4xl md:text-5xl font-bold tracking-tight mb-6">
               Design Your Custom Bottle
             </h1>
-            <p className="text-lg text-muted-foreground">
-              Create a unique branded water bottle that perfectly represents your brand
+            <p className="text-lg text-muted-foreground leading-relaxed">
+              Create a unique branded plastic water bottle that perfectly represents your brand
             </p>
           </motion.div>
 
@@ -75,11 +85,11 @@ export default function Customize() {
               animate={{ opacity: 1, x: 0 }}
               transition={{ delay: 0.2 }}
             >
-              <Card>
+              <Card className="border-2 hover:shadow-xl transition-all">
                 <CardHeader>
                   <CardTitle>Customization Options</CardTitle>
                   <CardDescription>
-                    Fill in the details to create your perfect bottle
+                    Fill in the details to create your perfect plastic bottle
                   </CardDescription>
                 </CardHeader>
                 <CardContent>
@@ -96,16 +106,16 @@ export default function Customize() {
                     </div>
 
                     <div className="space-y-2">
-                      <Label htmlFor="bottleType">Bottle Type *</Label>
+                      <Label htmlFor="bottleType">Bottle Size *</Label>
                       <Select name="bottleType" required>
                         <SelectTrigger>
-                          <SelectValue placeholder="Select bottle type" />
+                          <SelectValue placeholder="Select bottle size" />
                         </SelectTrigger>
                         <SelectContent>
-                          <SelectItem value="pet">PET Bottles</SelectItem>
-                          <SelectItem value="glass">Glass Bottles</SelectItem>
-                          <SelectItem value="aluminum">Aluminum Bottles</SelectItem>
-                          <SelectItem value="premium">Premium Mineral</SelectItem>
+                          <SelectItem value="250ml">250ml Plastic Bottle</SelectItem>
+                          <SelectItem value="500ml">500ml Plastic Bottle</SelectItem>
+                          <SelectItem value="750ml">750ml Plastic Bottle</SelectItem>
+                          <SelectItem value="1l">1L Plastic Bottle</SelectItem>
                         </SelectContent>
                       </Select>
                     </div>
@@ -113,7 +123,7 @@ export default function Customize() {
                     <div className="grid grid-cols-2 gap-4">
                       <div className="space-y-2">
                         <Label htmlFor="bottleColor">Bottle Color</Label>
-                        <Input id="bottleColor" name="bottleColor" placeholder="e.g., Clear, Blue" />
+                        <Input id="bottleColor" name="bottleColor" placeholder="e.g., Clear, Red" />
                       </div>
                       <div className="space-y-2">
                         <Label htmlFor="capColor">Cap Color</Label>
@@ -144,9 +154,9 @@ export default function Customize() {
                       />
                     </div>
 
-                    <div className="flex items-center justify-between p-4 border rounded-lg">
+                    <div className="flex items-center justify-between p-4 border-2 rounded-lg hover:border-primary transition-colors">
                       <div className="space-y-0.5">
-                        <Label htmlFor="qrCode">Add QR Code</Label>
+                        <Label htmlFor="qrCode" className="font-semibold">Add QR Code</Label>
                         <p className="text-sm text-muted-foreground">
                           Include a scannable QR code on your label
                         </p>
@@ -171,7 +181,7 @@ export default function Customize() {
                       </div>
                     </div>
 
-                    <Button type="submit" className="w-full cursor-pointer" disabled={isSubmitting}>
+                    <Button type="submit" className="w-full cursor-pointer shadow-lg shadow-primary/25" disabled={isSubmitting}>
                       {isSubmitting ? "Saving..." : "Save Customization"}
                       <CheckCircle className="ml-2 h-4 w-4" />
                     </Button>
@@ -186,24 +196,19 @@ export default function Customize() {
               transition={{ delay: 0.3 }}
               className="space-y-6"
             >
-              <Card>
+              <Card className="border-2">
                 <CardHeader>
-                  <CardTitle>Preview</CardTitle>
-                  <CardDescription>See how your bottle will look</CardDescription>
+                  <CardTitle>3D Preview</CardTitle>
+                  <CardDescription>Interactive view of your custom bottle</CardDescription>
                 </CardHeader>
                 <CardContent>
-                  <div className="aspect-square rounded-lg bg-gradient-to-br from-primary/20 to-primary/5 flex items-center justify-center">
-                    <div className="text-center">
-                      <div className="text-8xl mb-4">💧</div>
-                      <p className="text-sm text-muted-foreground">
-                        Your custom design preview will appear here
-                      </p>
-                    </div>
+                  <div className="aspect-square rounded-lg overflow-hidden bg-gradient-to-br from-primary/5 to-primary/10 border-2 border-primary/10">
+                    <BottleScene3D />
                   </div>
                 </CardContent>
               </Card>
 
-              <Card>
+              <Card className="border-2">
                 <CardHeader>
                   <CardTitle>What's Included</CardTitle>
                 </CardHeader>
