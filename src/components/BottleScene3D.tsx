@@ -139,8 +139,6 @@ export default function BottleScene3D() {
             color="#ff3333"
           />
           
-          <Environment preset="studio" />
-          
           {/* Ground plane for shadows */}
           <mesh rotation={[-Math.PI / 2, 0, 0]} position={[0, -1.5, 0]} receiveShadow>
             <planeGeometry args={[20, 20]} />
