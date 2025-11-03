@@ -2,6 +2,7 @@ import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
+import BottleScene3D from "@/components/BottleScene3D";
 import { motion } from "framer-motion";
 import { useNavigate } from "react-router";
 import { 
@@ -40,63 +41,74 @@ export default function Landing() {
     <div className="min-h-screen">
       <Navbar />
 
-      {/* Hero Section */}
+      {/* Hero Section with 3D Bottle */}
       <section className="relative overflow-hidden bg-gradient-to-b from-primary/5 to-background">
         <div className="container mx-auto px-4 py-20 md:py-32">
-          <motion.div
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
-            transition={{ duration: 1 }}
-            className="text-center max-w-4xl mx-auto"
-          >
+          <div className="grid md:grid-cols-2 gap-12 items-center">
             <motion.div
-              initial={{ scale: 0 }}
-              animate={{ scale: 1 }}
-              transition={{ duration: 0.5 }}
-              className="inline-block mb-6"
+              initial={{ opacity: 0, x: -50 }}
+              animate={{ opacity: 1, x: 0 }}
+              transition={{ duration: 1 }}
             >
-              <Droplet className="h-16 w-16 text-primary mx-auto" />
+              <motion.div
+                initial={{ scale: 0 }}
+                animate={{ scale: 1 }}
+                transition={{ duration: 0.5 }}
+                className="inline-block mb-6"
+              >
+                <Droplet className="h-16 w-16 text-primary" />
+              </motion.div>
+              
+              <motion.h1
+                {...fadeInUp}
+                className="text-4xl md:text-6xl lg:text-7xl font-bold tracking-tight mb-6"
+              >
+                Pure Water. <span className="text-primary">Custom Branding.</span>
+              </motion.h1>
+              
+              <motion.p
+                {...fadeInUp}
+                transition={{ delay: 0.2 }}
+                className="text-lg md:text-xl text-muted-foreground mb-8"
+              >
+                Premium plastic water bottles with your brand identity — perfect for events, offices, and retail.
+              </motion.p>
+              
+              <motion.div
+                {...fadeInUp}
+                transition={{ delay: 0.4 }}
+                className="flex flex-col sm:flex-row gap-4"
+              >
+                <Button
+                  size="lg"
+                  onClick={() => navigate("/contact")}
+                  className="cursor-pointer text-lg px-8"
+                >
+                  Get a Quote
+                  <ArrowRight className="ml-2 h-5 w-5" />
+                </Button>
+                <Button
+                  size="lg"
+                  variant="outline"
+                  onClick={() => navigate("/customize")}
+                  className="cursor-pointer text-lg px-8"
+                >
+                  Design Your Bottle
+                  <Sparkles className="ml-2 h-5 w-5" />
+                </Button>
+              </motion.div>
             </motion.div>
-            
-            <motion.h1
-              {...fadeInUp}
-              className="text-4xl md:text-6xl lg:text-7xl font-bold tracking-tight mb-6"
-            >
-              Pure Water. <span className="text-primary">Custom Branding.</span>
-            </motion.h1>
-            
-            <motion.p
-              {...fadeInUp}
-              transition={{ delay: 0.2 }}
-              className="text-lg md:text-xl text-muted-foreground mb-8 max-w-2xl mx-auto"
-            >
-              Your brand deserves a refreshing touch — personalize your own water bottles for events, offices, or retail.
-            </motion.p>
-            
+
+            {/* 3D Bottle Scene */}
             <motion.div
-              {...fadeInUp}
-              transition={{ delay: 0.4 }}
-              className="flex flex-col sm:flex-row gap-4 justify-center"
+              initial={{ opacity: 0, x: 50 }}
+              animate={{ opacity: 1, x: 0 }}
+              transition={{ duration: 1, delay: 0.3 }}
+              className="h-[500px] md:h-[600px] rounded-2xl overflow-hidden bg-gradient-to-br from-primary/10 to-background"
             >
-              <Button
-                size="lg"
-                onClick={() => navigate("/contact")}
-                className="cursor-pointer text-lg px-8"
-              >
-                Get a Quote
-                <ArrowRight className="ml-2 h-5 w-5" />
-              </Button>
-              <Button
-                size="lg"
-                variant="outline"
-                onClick={() => navigate("/customize")}
-                className="cursor-pointer text-lg px-8"
-              >
-                Design Your Bottle
-                <Sparkles className="ml-2 h-5 w-5" />
-              </Button>
+              <BottleScene3D />
             </motion.div>
-          </motion.div>
+          </div>
         </div>
 
         {/* Decorative Wave */}
@@ -153,13 +165,13 @@ export default function Landing() {
                 About OnePureDrop
               </h2>
               <p className="text-muted-foreground mb-6 leading-relaxed">
-                We're not just bottling water — we're bottling your brand's identity. 
-                With years of experience in custom water bottle production, we help businesses 
-                create memorable branded experiences that leave a lasting impression.
+                We specialize in premium plastic water bottles with custom branding. 
+                Our BPA-free, FDA-approved bottles combine quality, affordability, and stunning design 
+                to create memorable branded experiences.
               </p>
               <p className="text-muted-foreground mb-6 leading-relaxed">
-                From corporate events to hotel amenities, from gym promotions to retail launches, 
-                we provide end-to-end solutions that combine quality, sustainability, and stunning design.
+                From corporate events to retail launches, we provide end-to-end solutions 
+                with eco-friendly plastic bottles that are 100% recyclable and sustainable.
               </p>
               <Button
                 onClick={() => navigate("/about")}
@@ -176,10 +188,10 @@ export default function Landing() {
               whileInView={{ opacity: 1, x: 0 }}
               viewport={{ once: true }}
               transition={{ duration: 0.6 }}
-              className="relative"
+              className="relative h-[400px]"
             >
-              <div className="aspect-square rounded-2xl bg-gradient-to-br from-primary/20 to-primary/5 flex items-center justify-center">
-                <Droplet className="h-32 w-32 text-primary" />
+              <div className="w-full h-full rounded-2xl overflow-hidden bg-gradient-to-br from-primary/20 to-primary/5">
+                <BottleScene3D />
               </div>
             </motion.div>
           </div>
@@ -199,7 +211,7 @@ export default function Landing() {
               How It Works
             </h2>
             <p className="text-muted-foreground max-w-2xl mx-auto">
-              Three simple steps to get your custom branded water bottles
+              Three simple steps to get your custom branded plastic bottles
             </p>
           </motion.div>
 
@@ -220,13 +232,13 @@ export default function Landing() {
               {
                 step: "02",
                 title: "Choose Your Style",
-                description: "Select bottle type, size, label finish, and customization options",
+                description: "Select bottle size, label finish, and customization options",
                 icon: Award,
               },
               {
                 step: "03",
                 title: "Get Delivered",
-                description: "Receive your premium branded water bottles at your doorstep",
+                description: "Receive your premium branded plastic bottles at your doorstep",
                 icon: CheckCircle,
               },
             ].map((item, i) => (
@@ -273,10 +285,10 @@ export default function Landing() {
             className="text-center mb-16"
           >
             <h2 className="text-3xl md:text-4xl font-bold tracking-tight mb-4">
-              Our Bottle Collection
+              Our Plastic Bottle Collection
             </h2>
             <p className="text-muted-foreground max-w-2xl mx-auto">
-              Premium quality bottles in various sizes and materials
+              Premium quality plastic bottles in various sizes
             </p>
           </motion.div>
 
@@ -288,10 +300,10 @@ export default function Landing() {
             className="grid sm:grid-cols-2 lg:grid-cols-4 gap-6"
           >
             {[
-              { name: "PET Bottles", sizes: "250ml - 1L", icon: "💧" },
-              { name: "Glass Bottles", sizes: "330ml - 750ml", icon: "🍾" },
-              { name: "Aluminum Bottles", sizes: "500ml - 1L", icon: "🥤" },
-              { name: "Premium Mineral", sizes: "500ml - 1L", icon: "💎" },
+              { name: "250ml Bottles", sizes: "Perfect for events", icon: "💧" },
+              { name: "500ml Bottles", sizes: "Most popular size", icon: "💧" },
+              { name: "750ml Bottles", sizes: "Great for sports", icon: "💧" },
+              { name: "1L Bottles", sizes: "Maximum hydration", icon: "💧" },
             ].map((product, i) => (
               <motion.div key={i} variants={fadeInUp}>
                 <Card className="hover:shadow-lg transition-shadow cursor-pointer h-full">
@@ -329,7 +341,7 @@ export default function Landing() {
               {
                 icon: Leaf,
                 title: "Eco-Friendly",
-                description: "100% recyclable materials and sustainable production",
+                description: "100% recyclable plastic and sustainable production",
               },
               {
                 icon: Award,
@@ -400,7 +412,7 @@ export default function Landing() {
               viewport={{ once: true }}
               className="grid md:grid-cols-3 gap-6"
             >
-              {testimonials.slice(0, 3).map((testimonial, i) => (
+              {testimonials.slice(0, 3).map((testimonial) => (
                 <motion.div key={testimonial._id} variants={fadeInUp}>
                   <Card className="h-full">
                     <CardContent className="p-6">
@@ -439,7 +451,7 @@ export default function Landing() {
               Ready to Refresh Your Brand?
             </h2>
             <p className="text-lg mb-8 max-w-2xl mx-auto opacity-90">
-              Get started with custom branded water bottles today. Request a quote and let's create something amazing together.
+              Get started with custom branded plastic bottles today. Request a quote and let's create something amazing together.
             </p>
             <div className="flex flex-col sm:flex-row gap-4 justify-center">
               <Button

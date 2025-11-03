@@ -3,12 +3,12 @@ import { OrbitControls, PerspectiveCamera, Environment } from "@react-three/drei
 import { Suspense } from "react";
 import * as THREE from "three";
 
-function Bottle() {
+function PlasticBottle() {
   return (
     <group>
       {/* Bottle Body */}
       <mesh position={[0, 0, 0]} castShadow>
-        <cylinderGeometry args={[0.8, 0.9, 4, 32]} />
+        <cylinderGeometry args={[0.8, 0.9, 3, 32]} />
         <meshPhysicalMaterial
           color="#ff3333"
           transparent
@@ -19,10 +19,10 @@ function Bottle() {
           clearcoatRoughness={0.1}
         />
       </mesh>
-      
+
       {/* Bottle Neck */}
-      <mesh position={[0, 2.5, 0]} castShadow>
-        <cylinderGeometry args={[0.3, 0.4, 1, 32]} />
+      <mesh position={[0, 1.8, 0]} castShadow>
+        <cylinderGeometry args={[0.3, 0.5, 0.6, 32]} />
         <meshPhysicalMaterial
           color="#ff3333"
           transparent
@@ -33,25 +33,17 @@ function Bottle() {
           clearcoatRoughness={0.1}
         />
       </mesh>
-      
+
       {/* Bottle Cap */}
-      <mesh position={[0, 3.2, 0]} castShadow>
+      <mesh position={[0, 2.3, 0]} castShadow>
         <cylinderGeometry args={[0.35, 0.35, 0.4, 32]} />
-        <meshStandardMaterial
-          color="#ffffff"
-          roughness={0.3}
-          metalness={0.7}
-        />
+        <meshStandardMaterial color="#ffffff" roughness={0.3} metalness={0.7} />
       </mesh>
-      
+
       {/* Label */}
-      <mesh position={[0, 0, 0.91]} rotation={[0, 0, 0]}>
+      <mesh position={[0, 0, 0.81]} rotation={[0, 0, 0]}>
         <planeGeometry args={[2, 1.5]} />
-        <meshStandardMaterial
-          color="#ffffff"
-          roughness={0.5}
-          side={THREE.DoubleSide}
-        />
+        <meshStandardMaterial color="#ffffff" roughness={0.5} />
       </mesh>
     </group>
   );
@@ -66,8 +58,8 @@ export default function BottleScene3D() {
           <OrbitControls
             enableZoom={true}
             enablePan={false}
-            minDistance={5}
-            maxDistance={15}
+            minDistance={4}
+            maxDistance={10}
             autoRotate
             autoRotateSpeed={2}
           />
@@ -77,23 +69,17 @@ export default function BottleScene3D() {
             position={[10, 10, 5]}
             intensity={1}
             castShadow
-            shadow-mapSize-width={1024}
-            shadow-mapSize-height={1024}
+            shadow-mapSize-width={2048}
+            shadow-mapSize-height={2048}
           />
-          <spotLight
-            position={[-10, 10, -5]}
-            angle={0.3}
-            penumbra={1}
-            intensity={0.5}
-            castShadow
-          />
+          <pointLight position={[-10, -10, -5]} intensity={0.5} color="#ff3333" />
           
-          <Bottle />
+          <PlasticBottle />
           
           <Environment preset="studio" />
           
           {/* Ground plane for shadows */}
-          <mesh rotation={[-Math.PI / 2, 0, 0]} position={[0, -2.5, 0]} receiveShadow>
+          <mesh rotation={[-Math.PI / 2, 0, 0]} position={[0, -1.5, 0]} receiveShadow>
             <planeGeometry args={[20, 20]} />
             <shadowMaterial opacity={0.3} />
           </mesh>
